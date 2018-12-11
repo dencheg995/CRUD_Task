@@ -1,0 +1,262 @@
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Dynatable/0.3.1/jquery.dynatable.js"></script>
+</head>
+</head>
+<body>
+
+<div id = "container">
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark">
+        <a class="navbar-brand" href="#">CRUD Project</a>
+        <button
+                class="navbar-toggler"
+                type="button"
+                data-toggle="collapse"
+                data-target="#navbarCollapse"
+                aria-controls="navbarCollapse"
+                aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="nav nav-pills mr-auto sidenav"  id="navAccordion" role="tablist">
+                <li class="nav-item">
+                <a class="nav-link" style="margin-top: 15px; color: aqua" href="#Admin" role="tab" data-toggle="pill">Admin</a>
+                </li>
+
+                <li class="nav-item">
+                <a class="nav-link" style="margin-top: 15px; color: aqua" href="#User" role="tab" data-toggle="pill">User</a>
+                </li>
+            </ul>
+            <form class="form-inline ml-auto mt-2 mt-md-0" th:action="@{/logout}" method="post">
+                <input type="submit" value="Выйти" class="btn btn-outline-success my-2 my-sm-0 ">
+            </form>
+        </div>
+    </nav>
+<main class="content-wrapper">
+<div class="tab-content">
+
+<div role="tabpanel" class="tab-pane fade" id="Admin">
+    <h1 class="h1">Admin panel</h1>
+    <div class="card card-default" style= "margin-top: 50px">
+        <div class="card-header">
+            <ul class="nav nav-tabs card-header-tabs pull-xs-left">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#">Users table</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="modal" data-target="#myModal">
+                        New User
+                    </a>
+                    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="myModalLabel">New User</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        x
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form role="form" th:action="@{/addUser}" th:object="${userAttribute}" method="post">
+                                        <div class="form-group">
+                                            <label for="name">имя:</label>
+                                            <input id="name" class="form-control" name="name" required type="text" placeholder="Ivan" th:field="*{name}">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="age">возраст:</label>
+                                            <input id="age" class="form-control" name="age" required type="text" placeholder="19" th:field="*{age}">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="login">логин:</label>
+                                            <input id="login" class="form-control" name="login" required type="text" placeholder="Invan99" th:field="*{login}">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="password">пароль:</label>
+                                            <input id="password" class="form-control" name="password" required type="password" placeholder="****" th:field="*{password}">
+                                        </div>
+
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="checkbox" name="enabled" th:field="*{enabled}" value="" id="defaultCheck1">
+                                            <label class="form-check-label" for="defaultCheck1" >
+                                                true
+                                            </label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="checkbox" name="enabled" th:field="*{enabled}" value="" id="defaultCheck">
+                                            <label class="form-check-label" for="defaultCheck" >
+                                                false
+                                            </label>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <form role = "form" th:object="${roleAttribute}" >
+                                                <div class="form-group">
+                                                    <label for="exampleFormControlSelect1">Role:</label>
+                                                    <select class="form-control" id="exampleFormControlSelect1" name="role" th:field="*{nameRole}" >
+                                                        <option th:value="'USER'">USER</option>
+                                                        <option th:value="'ADMIN'">ADMIN</option>
+                                                    </select>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <div class="form-group">
+                                                        <input type="submit" value="Save" class="btn btn-success"/>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+
+        <div class="card-body">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-9">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Age</th>
+                                <th scope="col">Login</th>
+                                <th scope="col">Password</th>
+                                <th scope="col">delete</th>
+                                <th scope="col">Edit</th>
+                            </tr>
+                            </thead>
+                            <tbody id="showBody">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div role="tabpanel" class="tab-pane fade" id="User">Приветик
+    </div>
+
+</div>
+</main>
+</div>
+
+
+
+<style>
+    html {
+        position: relative;
+        min-height: 100%;
+    }
+
+    body {
+        padding-top: 4.5rem;
+        margin-bottom: 4.5rem;
+    }
+
+
+
+    .nav-link:hover {
+        transition: all 0.4s;
+    }
+
+    .nav-item ul.nav-second-level {
+        padding-left: 0;
+    }
+
+    .nav-item ul.nav-second-level > .nav-item {
+        padding-left: 20px;
+    }
+
+    @media (min-width: 992px) {
+        .sidenav {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 130px;
+            height: calc(100vh - 3.5rem);
+            margin-top: 4.35rem;
+            background: dimgrey;
+            box-sizing: border-box;
+            border-top: 1px solid rgba(55, 55, 55, 0.3);
+        }
+
+        .navbar-expand-lg .sidenav {
+            flex-direction: column;
+        }
+
+        .content-wrapper {
+            margin-left: 130px;
+        }
+
+    }
+
+</style>
+
+
+
+<div class="modal fade" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="editModalLabel">Edit User</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    x
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group form-vales">
+                    <label for="idChange">id:</label>
+                    <input id="idChange" class="form-control" type="text" name="idChange" disabled>
+                </div>
+
+                <div class="form-group form-vales">
+                    <label for="nameChange">имя:</label>
+                    <input id="nameChange" class="form-control" type="text">
+                </div>
+
+                <div class="form-group form-vales">
+                    <label for="ageChange">возраст:</label>
+                    <input id ="ageChange" class="form-control" type="text">
+                </div>
+
+                <div class="form-group form-vales">
+                    <label for="loginChange">логин:</label>
+                    <input id = "loginChange" class="form-control" type="text">
+                </div>
+
+                <div class="form-group form-vales">
+                    <label for="passwordChange">пароль:</label>
+                    <input id = "passwordChange" class="form-control" type="password" >
+                </div>
+                <div class="modal-footer">
+                    <button id='save' class='btn btn-danger'> Save </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+<script type="text/javascript" th:src="@{/js/client.js}"></script>
+</body>
+</html>

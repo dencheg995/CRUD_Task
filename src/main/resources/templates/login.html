@@ -1,0 +1,28 @@
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>login page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+</head>
+<body>
+
+<div class="d-flex align-items-center flex-column justify-content-center" style="margin-top: 100px">
+<form role="form" th:action="@{/mylogin}" method="post">
+    <div class="form-group">
+            <input type="text" name="username" class="form-control" placeholder="Введите логин">
+    </div>
+    <div class="form-group">
+            <input type="password" name="password" class="form-control" placeholder="Ввудите пароль" required>
+    </div>
+    <table>
+        <td><button class="btn btn-success">Войти</button></td>
+
+        <td><a th:href="@{/register}">Register</a></td>
+    </table>
+</form>
+</div>
+
+</body>
+</html>
